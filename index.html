@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lion's Den Media | Audio Repository & Vault</title>
+  <style>
+    :root {
+      --bg: #090b0e;
+      --card-bg: #13171f;
+      --border: #232936;
+      --accent: #2de2e6;
+      --accent-glow: rgba(45, 226, 230, 0.2);
+      --gold: #f3ba2f;
+      --text: #e6edf3;
+      --text-muted: #8b949e;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      padding-bottom: 110px; /* Space so content clears the fixed bottom player */
+    }
+
+    /* Top Identity Header */
+    header {
+      padding: 32px 20px 24px;
+      text-align: center;
+      background: radial-gradient(circle at top, #1a2230 0%, var(--bg) 80%);
+      border-bottom: 1px solid var(--border);
+    }
+    header h1 {
+      font-size: 1.8rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--accent);
+      text-shadow: 0 0 12px var(--accent-glow);
+    }
+    header p {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      letter-spacing: 1.5px;
+      margin-top: 6px;
+    }
+
+    /* Sticky Tab Navigation Bar */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(13, 17, 23, 0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px;
+      overflow-x: auto;
+    }
+    nav button {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    nav button:hover {
+      border-color: var(--accent);
+      color: var(--text);
+    }
+    nav button.active {
+      background: var(--accent);
+      color: #000;
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+
+    /* Tab Containers */
+    main {
+      max-width: 960px;
+      margin: 28px auto;
+      padding: 0 16px;
+    }
+    .tab-pane {
+      display: none;
+    }
+    .tab-pane.active {
+      display: block;
+      animation: fadeIn 0.25s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Project Cards & Grid */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: border-color 0.2s ease;
+    }
+    .card:hover {
+      border-color: #3b4559;
+    }
+    .card h3 {
+      font-size: 1.15rem;
+      margin-bottom: 6px;
+      color: #fff;
+    }
+    .card .meta {
+      font-size: 0.75rem;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+    }
+    .card p {
+      font-size: 0.9rem;
+      line-height: 1.5;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    /* Action Buttons (Audio & Checkout) */
+    .button-group {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .btn-play {
+      background: #1f2733;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      padding: 8px 14px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      font-weight: bold;
+      transition: all 0.2s;
+    }
+    .btn-play:hover {
+      background: var(--accent);
+      color: #000;
+    }
+    .btn-buy {
+      background: var(--gold);
+      border: 1px solid var(--gold);
+      color: #000;
+      padding: 8px 14px;
+      border-radius: 4px;
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: bold;
+      display: inline-flex;
+      align-items: center;
+      transition: opacity 0.2s;
+    }
+    .btn-buy:hover {
+      opacity: 0.9;
+    }
+    .btn-secondary {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 8px 12px;
+      border-radius: 4px;
+      text-decoration: none;
+      font-size: 0.8rem;
+    }
+    .btn-secondary:hover {
+      color: #fff;
+      border-color: #fff;
+    }
+
+    /* Fixed Sticky Deck (Player) */
+    .sticky-deck {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 85px;
+      background: #080a0d;
+      border-top: 1px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      box-shadow: 0 -4px 25px rgba(0, 0, 0, 0.85);
+      z-index: 1000;
+    }
+    .deck-info {
+      display: flex;
+      flex-direction: column;
+      max-width: 300px;
+    }
+    .deck-track {
+      font-size: 0.95rem;
+      font-weight: bold;
+      color: #fff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .deck-sub {
+      font-size: 0.75rem;
+      color: var(--accent);
+      letter-spacing: 0.5px;
+    }
+    audio {
+      filter: invert(90%) hue-rotate(180deg);
+      outline: none;
+      max-width: 450px;
+      width: 100%;
+    }
+
+    @media (max-width: 720px) {
+      .sticky-deck {
+        flex-direction: column;
+        height: auto;
+        padding: 12px 16px;
+        gap: 8px;
+      }
+      .deck-info { text-align: center; }
+      body { padding-bottom: 140px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Lion's Den Media</h1>
+    <p>Sovereign Recursion Hub & Audio Repository</p>
+  </header>
+
+  <!-- Navigation Tabs -->
+  <nav>
+    <button class="tab-link active" onclick="showTab('gate')">Front Gate</button>
+    <button class="tab-link" onclick="showTab('lineage')">Project Lineage</button>
+    <button class="tab-link" onclick="showTab('vault')">Recursion Vault</button>
+    <button class="tab-link" onclick="showTab('store')">Dispensary (Store)</button>
+  </nav>
+
+  <main>
+    <!-- TAB 1: FRONT GATE (FEATURED DROPS & YOUTUBE STREAM ENTRIES) -->
+    <section id="gate" class="tab-pane active">
+      <div class="card" style="margin-bottom: 24px;">
+        <div class="meta">Active Feature • Continuous Mix</div>
+        <h3>Lily's Pad EP (Continuous Mix)</h3>
+        <p>12-minute deep dub techno & illbient trip. Subterranean 808 pressure hidden under an ambient surface mist. Load it to the persistent player to ride across the site.</p>
+        <div class="button-group">
+          <!-- Direct MP3 stream URL from Archive.org or server -->
+          <button class="btn-play" onclick="playDeck('Lily\'s Pad (Continuous Mix)', 'Lion\'s Den Media — 142 BPM', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3')">
+            ▶ Play in Bottom Deck
+          </button>
+          <!-- PASTE YOUR STRIPE PAYMENT LINK OR BEAT LEASE HERE -->
+          <a class="btn-buy" href="https://buy.stripe.com/test_replace_with_your_link" target="_blank" rel="noopener">
+            Get High-Res WAV ($10)
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: PROJECT LINEAGE (EPS, SEQUELS & ALBUMS) -->
+    <section id="lineage" class="tab-pane">
+      <div class="grid">
+        <div class="card">
+          <div class="meta">Release Family 01</div>
+          <h3>Sofi's Sanctuary (LP)</h3>
+          <p>The 33-track full-length architecture. Seamless progression from seed beat to full tape.</p>
+          <div class="button-group">
+            <button class="btn-play" onclick="playDeck('Sofi\'s Sanctuary Preview', '33-Track Album Reel', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3')">
+              ▶ Listen
+            </button>
+            <a class="btn-buy" href="https://buy.stripe.com/test_replace_with_your_link" target="_blank" rel="noopener">Buy Album ($15)</a>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="meta">Release Family 02</div>
+          <h3>The Descent into the Den</h3>
+          <p>Track 3 extended sound design. Dark echoes, heavy low-end compression, and sub-surface transients.</p>
+          <div class="button-group">
+            <button class="btn-play" onclick="playDeck('The Descent into the Den', 'Crossing the Threshold', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3')">
+              ▶ Listen
+            </button>
+            <a class="btn-buy" href="https://buy.stripe.com/test_replace_with_your_link" target="_blank" rel="noopener">Buy Track ($3)</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: RECURSION VAULT (LONGFORM ARCHIVES & ATOMS) -->
+    <section id="vault" class="tab-pane">
+      <div class="grid">
+        <div class="card">
+          <div class="meta">Archive Stream • 8+ Hours</div>
+          <h3>The 491 Sample Vault Stream</h3>
+          <p>Direct unedited session from the recursion engine. Raw chops, boom bap foundations, and live arrangements.</p>
+          <div class="button-group">
+            <!-- PASTE YOUR DIRECT ARCHIVE.ORG MP3 LINK BELOW -->
+            <button class="btn-play" onclick="playDeck('The 491 Sample Vault', 'Longform Stream Replay', 'https://archive.org/download/your_uploaded_item/stream.mp3')">
+              ▶ Stream from Archive
+            </button>
+            <a class="btn-secondary" href="https://archive.org" target="_blank" rel="noopener">Direct Archive Page</a>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="meta">Continuous Tape</div>
+          <h3>The Sticky Tape Session</h3>
+          <p>Uninterrupted studio marathon. Soft-clipped drums, 808 sub-lines, and point-source spatial panning.</p>
+          <div class="button-group">
+            <button class="btn-play" onclick="playDeck('The Sticky Tape', 'Live Session Master', 'https://archive.org/download/your_uploaded_item/sticky.mp3')">
+              ▶ Stream from Archive
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 4: DISPENSARY / STORE (BEATS & STEM PACKS) -->
+    <section id="store" class="tab-pane">
+      <div class="grid">
+        <!-- Single Beat Lease Card -->
+        <div class="card">
+          <div class="meta">Beat License • 140 BPM</div>
+          <h3>Heavy Sub Melody 01</h3>
+          <p>Includes MP3 & uncompressed 24-bit WAV license. Untagged, ready for vocal tracking.</p>
+          <div class="button-group">
+            <button class="btn-play" onclick="playDeck('Heavy Sub Melody 01', 'Instrumental Lease', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3')">
+              ▶ Preview Beat
+            </button>
+            <!-- PASTE YOUR STRIPE / TRAKTRAIN LEASE LINK HERE -->
+            <a class="btn-buy" href="https://buy.stripe.com/your_beat_lease_link" target="_blank" rel="noopener">
+              Lease Beat ($30)
+            </a>
+          </div>
+        </div>
+
+        <!-- Stem Pack / Atom Card -->
+        <div class="card">
+          <div class="meta">Producer Stem Pack</div>
+          <h3>Atom 01 Full Stems (32 Singles)</h3>
+          <p>Complete multi-track stems: kick, 808 sub-bass, snare/clap, percussion, atmospheric risers, and MIDI.</p>
+          <div class="button-group">
+            <!-- PASTE YOUR STRIPE / PAYPAL ZIP DOWNLOAD LINK HERE -->
+            <a class="btn-buy" href="https://buy.stripe.com/your_stem_pack_link" target="_blank" rel="noopener">
+              Buy Full Stems ($40)
+            </a>
+            <!-- Or direct link to your Traktrain store profile -->
+            <a class="btn-secondary" href="https://traktrain.com" target="_blank" rel="noopener">Traktrain Profile</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Sticky Bottom Audio Deck (Never reloads between tab clicks) -->
+  <div class="sticky-deck">
+    <div class="deck-info">
+      <span class="deck-track" id="deck-title">Lily's Pad (Continuous Mix)</span>
+      <span class="deck-sub" id="deck-subtitle">Mike Lion Beatz — 142 BPM</span>
+    </div>
+    <audio id="player-instance" controls autoplay>
+      <source id="player-src" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+      Your browser does not support audio playback.
+    </audio>
+  </div>
+
+  <script>
+    // Tab Switching Logic without reloading pages
+    function showTab(tabId) {
+      document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
+      document.querySelectorAll('.tab-link').forEach(btn => btn.classList.remove('active'));
+
+      document.getElementById(tabId).classList.add('active');
+      event.target.classList.add('active');
+    }
+
+    // Audio Deck Trigger Logic
+    function playDeck(title, subtitle, streamUrl) {
+      const player = document.getElementById('player-instance');
+      const source = document.getElementById('player-src');
+      
+      document.getElementById('deck-title').innerText = title;
+      document.getElementById('deck-subtitle').innerText = subtitle;
+      
+      source.src = streamUrl;
+      player.load();
+      player.play();
+    }
+  </script>
+</body>
+</html>
