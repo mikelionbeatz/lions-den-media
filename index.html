@@ -1,572 +1,227 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lion's Den Media | Audio Repository & Vault</title>
-  <style>
-    :root {
-      --bg: #090b0e;
-      --card-bg: #13171f;
-      --border: #232936;
-      --accent: #2de2e6;
-      --accent-glow: rgba(45, 226, 230, 0.2);
-      --gold: #f3ba2f;
-      --text: #e6edf3;
-      --text-muted: #8b949e;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lion's Den Media | Subterranean Audio Hub</title>
+<style>
+:root {
+  --bg: #0d0f12;
+  --card: #161a20;
+  --accent: #2de2e6;
+  --text: #e0e6ed;
+  --muted: #8b9bb4;
+  --border: #232936;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  padding-bottom: 90px;
+}
+header {
+  padding: 24px;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+}
+header h1 { font-size: 1.5rem; letter-spacing: 2px; color: var(--accent); }
+header p { color: var(--muted); font-size: 0.85rem; margin-top: 4px; }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      background-color: var(--bg);
-      color: var(--text);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      padding-bottom: 110px; /* Space so content clears the fixed bottom player */
-    }
+/* Persistent Tab Navigation (YouTube Style) */
+nav {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  padding: 16px;
+  background: #111419;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-bottom: 1px solid var(--border);
+}
+nav button {
+  background: none;
+  border: 1px solid #2a3242;
+  color: var(--text);
+  padding: 8px 18px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+nav button.active, nav button:hover {
+  background: var(--accent);
+  color: #000;
+  border-color: var(--accent);
+  font-weight: bold;
+}
 
-    /* Top Identity Header */
-    header {
-      padding: 32px 20px 24px;
-      text-align: center;
-      background: radial-gradient(circle at top, #1a2230 0%, var(--bg) 80%);
-      border-bottom: 1px solid var(--border);
-    }
-    header h1 {
-      font-size: 1.8rem;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: var(--accent);
-      text-shadow: 0 0 12px var(--accent-glow);
-    }
-    header p {
-      color: var(--text-muted);
-      font-size: 0.85rem;
-      letter-spacing: 1.5px;
-      margin-top: 6px;
-    }
+/* Content Views */
+main { max-width: 900px; margin: 24px auto; padding: 0 16px; }
+.tab-content { display: none; }
+.tab-content.active { display: block; }
 
-    /* Sticky Tab Navigation Bar */
-    nav {
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      background: rgba(13, 17, 23, 0.95);
-      backdrop-filter: blur(8px);
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      justify-content: center;
-      gap: 8px;
-      padding: 12px;
-      overflow-x: auto;
-    }
-    nav button {
-      background: transparent;
-      border: 1px solid var(--border);
-      color: var(--text-muted);
-      padding: 8px 16px;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 0.85rem;
-      font-weight: 600;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      transition: all 0.2s ease;
-      white-space: nowrap;
-    }
-    nav button:hover {
-      border-color: var(--accent);
-      color: var(--text);
-    }
-    nav button.active {
-      background: var(--accent);
-      color: #000;
-      border-color: var(--accent);
-      box-shadow: 0 0 10px var(--accent-glow);
-    }
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 20px;
+  margin-bottom: 16px;
+}
+.card h2 { color: var(--accent); margin-bottom: 8px; font-size: 1.2rem; }
+.card p { color: var(--muted); line-height: 1.5; font-size: 0.95rem; margin-bottom: 12px; }
 
-    /* Tab Containers */
-    main {
-      max-width: 960px;
-      margin: 28px auto;
-      padding: 0 16px;
-    }
-    .tab-pane {
-      display: none;
-    }
-    .tab-pane.active {
-      display: block;
-      animation: fadeIn 0.25s ease-in-out;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(4px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+.btn-primary {
+  background: var(--accent);
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-weight: bold;
+  border-radius: 4px;
+  color: #000;
+  text-decoration: none;
+  display: inline-block;
+}
+.btn-primary:hover { opacity: 0.9; }
 
-    /* Project Cards & Grid */
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 16px;
-      margin-top: 16px;
-    }
-    .card {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      transition: border-color 0.2s ease;
-    }
-    .card:hover {
-      border-color: #3b4559;
-    }
-    .card h3 {
-      font-size: 1.15rem;
-      margin-bottom: 6px;
-      color: #fff;
-    }
-    .card .meta {
-      font-size: 0.75rem;
-      color: var(--accent);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 12px;
-    }
-    .card p {
-      font-size: 0.9rem;
-      line-height: 1.5;
-      color: var(--text-muted);
-      margin-bottom: 18px;
-    }
+/* Grid for Recursion Tiers */
+.grid-tiers {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
 
-    /* Action Buttons (Audio & Checkout) */
-    .button-group {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-    .btn-play {
-      background: #1f2733;
-      border: 1px solid var(--accent);
-      color: var(--accent);
-      padding: 8px 14px;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 0.8rem;
-      font-weight: bold;
-      transition: all 0.2s;
-    }
-    .btn-play:hover {
-      background: var(--accent);
-      color: #000;
-    }
-    .btn-buy {
-      background: var(--gold);
-      border: 1px solid var(--gold);
-      color: #000;
-      padding: 8px 14px;
-      border-radius: 4px;
-      text-decoration: none;
-      font-size: 0.8rem;
-      font-weight: bold;
-      display: inline-flex;
-      align-items: center;
-      transition: opacity 0.2s;
-    }
-    .btn-buy:hover {
-      opacity: 0.9;
-    }
-    .btn-secondary {
-      background: transparent;
-      border: 1px solid var(--border);
-      color: var(--text-muted);
-      padding: 8px 12px;
-      border-radius: 4px;
-      text-decoration: none;
-      font-size: 0.8rem;
-    }
-    .btn-secondary:hover {
-      color: #fff;
-      border-color: #fff;
-    }
-
-    /* Fixed Sticky Deck (Player) */
-    .sticky-deck {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 85px;
-      background: #080a0d;
-      border-top: 1px solid var(--accent);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 24px;
-      box-shadow: 0 -4px 25px rgba(0, 0, 0, 0.85);
-      z-index: 1000;
-    }
-    .deck-info {
-      display: flex;
-      flex-direction: column;
-      max-width: 300px;
-    }
-    .deck-track {
-      font-size: 0.95rem;
-      font-weight: bold;
-      color: #fff;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .deck-sub {
-      font-size: 0.75rem;
-      color: var(--accent);
-      letter-spacing: 0.5px;
-    }
-    audio {
-      filter: invert(90%) hue-rotate(180deg);
-      outline: none;
-      max-width: 450px;
-      width: 100%;
-    }
-
-    @media (max-width: 720px) {
-      .sticky-deck {
-        flex-direction: column;
-        height: auto;
-        padding: 12px 16px;
-        gap: 8px;
-      }
-      .deck-info { text-align: center; }
-      body { padding-bottom: 140px; }
-    }
-  </style>
+/* The Sticky Bottom Audio Player */
+.persistent-player {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 75px;
+  background: #090b0e;
+  border-top: 1px solid var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.8);
+  z-index: 100;
+}
+.track-info { display: flex; flex-direction: column; }
+.track-title { font-weight: bold; font-size: 0.9px; color: #fff; }
+.track-sub { font-size: 0.75rem; color: var(--accent); }
+</style>
 </head>
 <body>
 
-  <header>
-    <h1>Lion's Den Media</h1>
-    <p>Sovereign Recursion Hub & Audio Repository</p>
-  </header>
+<header>
+  <h1>LION'S DEN MEDIA ARCHIVE</h1>
+  <p>RECURSION HUB & AUDIO REPOSITORY</p>
+</header>
 
-  <!-- Navigation Tabs -->
-  <nav>
-    <button class="tab-link active" onclick="showTab('gate')">Front Gate</button>
-    <button class="tab-link" onclick="showTab('lineage')">Project Lineage</button>
-    <button class="tab-link" onclick="showTab('vault')">Recursion Vault</button>
-    <button class="tab-link" onclick="showTab('store')">Dispensary (Store)</button>
-  </nav>
+<!-- YouTube-Inspired Tab Navigation -->
+<nav>
+  <button class="tab-btn active" onclick="switchTab('home')">Home</button>
+  <button class="tab-btn" onclick="switchTab('videos')">Videos</button>
+  <button class="tab-btn" onclick="switchTab('releases')">Releases</button>
+  <button class="tab-btn" onclick="switchTab('recursion')">Recursion Project</button>
+</nav>
 
-  <main>
-    <!-- TAB 1: FRONT GATE -->
-    <section id="gate" class="tab-pane active">
-      <!-- Master YouTube Playlist Embed -->
-      <div class="card" style="margin-bottom: 20px;">
-        <div class="meta">Master Broadcast • YouTube Playlist</div>
-        <h3>Lion's Den Official Rotation</h3>
-        <p>Stream the visual catalog directly from the Front Gate or load an archive mix into the bottom audio deck while you explore the vault.</p>
-        <div style="margin-top: 12px; border-radius: 6px; overflow: hidden; border: 1px solid var(--border);">
-          <iframe 
-            width="100%" 
-            height="340" 
-            src="https://www.youtube.com/embed/videoseries?list=PLLvx378iw78w" 
-            title="Mike Lion Beatz Playlist" 
-            frameborder="0" 
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-            loading="lazy" 
-            allowfullscreen>
-          </iframe>
-        </div>
-      </div>
-
-      <!-- Flagship Heavyweight Albums -->
-      <div class="grid">
-        <div class="card">
-          <div class="meta">Flagship LP • 25 Tracks</div>
-          <h3>Razor Rust</h3>
-          <p>25-track industrial, dark ambient, and heavy low-end instrumental architecture.</p>
-          <div class="button-group">
-            <button class="btn-play" onclick="playDeck('Razor Rust (25 Tracks)', 'Mike Lion Beatz — Flagship LP', 'PASTE_ARCHIVE_MP3_URL')">▶ Load to Bottom Deck</button>
-            <a class="btn-buy" href="PASTE_PAYMENT_LINK" target="_blank" rel="noopener">Get Album</a>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="meta">Flagship LP • 31 Tracks</div>
-          <h3>Sofi’s Sanctuary</h3>
-          <p>31-track immersive instrumental sanctuary expanded from the original SOFI mini-tape seed.</p>
-          <div class="button-group">
-            <button class="btn-play" onclick="playDeck('Sofi\'s Sanctuary (31 Tracks)', 'Mike Lion Beatz — Flagship LP', 'PASTE_ARCHIVE_MP3_URL')">▶ Load to Bottom Deck</button>
-            <a class="btn-buy" href="PASTE_PAYMENT_LINK" target="_blank" rel="noopener">Get Album</a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- TAB 2: PROJECT LINEAGE (MINI-TO-LP & SERIES) -->
-    <section id="lineage" class="tab-pane">
-      <div class="grid">
-        <div class="card">
-          <div class="meta">Lineage 01 • Seed to Sanctuary</div>
-          <h3>SOFI Tape (mini) ➔ Sofi’s Sanctuary</h3>
-          <p>Trace the evolution from the continuous SOFI Tape (mini) single directly into the 31-track Sofi’s Sanctuary album.</p>
-          <div class="button-group">
-            <button class="btn-play" onclick="playDeck('SOFI Tape (mini)', 'Lineage Seed Single', 'PASTE_ARCHIVE_MP3_URL')">▶ Play Mini Seed</button>
-            <button class="btn-play" onclick="playDeck('Sofi\'s Sanctuary', '31-Track LP', 'PASTE_ARCHIVE_MP3_URL')">▶ Play 31-Track LP</button>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="meta">Lineage 02 • Seed to Full Tape</div>
-          <h3>Fresh 2 Death (Mini ➔ 11-Track LP)</h3>
-          <p>Includes both the Fresh 2 Death Tape (mini) single and the expanded 11-track Fresh 2 Death album.</p>
-          <div class="button-group">
-            <button class="btn-play" onclick="playDeck('Fresh 2 Death Tape (mini)', 'Mini Single', 'PASTE_ARCHIVE_MP3_URL')">▶ Play Mini</button>
-            <button class="btn-play" onclick="playDeck('Fresh 2 Death (11 Tracks)', 'Full Tape', 'PASTE_ARCHIVE_MP3_URL')">▶ Play 11-Track LP</button>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="meta">Lineage 03 • The Beast Evolution</div>
-          <h3>Beast Tape 1 (mini) ➔ Beast Music 2</h3>
-          <p>From the raw Beast Tape 1 (mini) single into the full 15-track Beast Music 2 heavyweight sequel.</p>
-          <div class="button-group">
-            <button class="btn-play" onclick="playDeck('Beast Tape 1 (mini)', 'Mini Single', 'PASTE_ARCHIVE_MP3_URL')">▶ Play Beast 1 (Mini)</button>
-            <button class="btn-play" onclick="playDeck('Beast Music 2 (15 Tracks)', 'Full Sequel', 'PASTE_ARCHIVE_MP3_URL')">▶ Play Beast Music 2</button>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="meta">Lineage 04 • Regional Bounce & Dub</div>
-          <h3>Cajun Riddims, Vol. 1 & Vol. 2</h3>
-          <p>28 combined tracks of southern bounce, tribal percussion, and heavy low-end across Vol. 1 (9 tracks) and Vol. 2 (19 tracks).</p>
-          <div class="button-group">
-            <button class="btn-play" onclick="playDeck('Cajun Riddims, Vol. 1 (9 Tracks)', 'Mike Lion Beatz', 'PASTE_ARCHIVE_MP3_URL')">▶ Play Vol. 1</button>
-            <button class="btn-play" onclick="playDeck('Cajun Riddims, Vol. 2 (19 Tracks)', 'Mike Lion Beatz', 'PASTE_ARCHIVE_MP3_URL')">▶ Play Vol. 2</button>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="meta">Lineage 05 • Twin Volume Pack</div>
-          <h3>New Bangers Alert, Vol. 1 & Vol. 2</h3>
-          <p>Matched pair of 14-track energetic beat tapes (28 tracks total) engineered for maximum trunk knock.</p>
-          <div class="button-group">
-            <button class="btn-play" onclick="playDeck('New Bangers Alert, Vol. 1 (14 Tracks)', 'Mike Lion Beatz', 'PASTE_ARCHIVE_MP3_URL')">▶ Play Vol. 1</button>
-            <button class="btn-play" onclick="playDeck('New Bangers Alert, Vol. 2 (14 Tracks)', 'Mike Lion Beatz', 'PASTE_ARCHIVE_MP3_URL')">▶ Play Vol. 2</button>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="meta">Lineage 06 • Nightlife & Movement</div>
-          <h3>Dance Tape, Vol. 2 & Club Vibes, Vol. 2</h3>
-          <p>Dual 12-track electronic and club-ready rhythm tapes built for continuous up-tempo momentum.</p>
-          <div class="button-group">
-            <button class="btn-play" onclick="playDeck('Dance Tape, Vol. 2 (12 Tracks)', 'Mike Lion Beatz', 'PASTE_ARCHIVE_MP3_URL')">▶ Play Dance Vol. 2</button>
-            <button class="btn-play" onclick="playDeck('Club Vibes, Vol. 2 (12 Tracks)', 'Mike Lion Beatz', 'PASTE_ARCHIVE_MP3_URL')">▶ Play Club Vol. 2</button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- TAB 3: RECURSION VAULT (MINI-TAPES & STANDALONE ALBUMS) -->
-    <section id="vault" class="tab-pane">
-      <h3 style="color: var(--accent); margin-bottom: 12px; letter-spacing: 1px;">06 // MINI-TAPE SINGLES</h3>
-      <div class="grid" style="margin-bottom: 32px;">
-        <div class="card">
-          <div class="meta">Origins Mini-Tape • Single</div>
-          <h3>Judgement Day ('04 Mini)</h3>
-          <p>A nod to the 2004 FruityLoops foundation—raw, unpolished underground bounce.</p>
-          <div class="button-group">
-            <button class="btn-play" onclick="playDeck('Judgement Day (\'04 Mini)', 'Mini-Tape Single', 'PASTE_ARCHIVE_MP3_URL')">▶ Stream Mini</button>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="meta">Atmospheric Mini-Tape • Single</div>
-          <h3>Botanical Garden Tape (mini)</h3>
-          <p>Lush, organic textures layered over deep subterranean bass resonance.</p>
-          <div class="button-group">
-            <button class="btn-play" onclick="playDeck('Botanical Garden Tape (mini)', 'Mini-Tape Single', 'PASTE_ARCHIVE_MP3_URL')">▶ Stream Mini</button>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="meta">Cloud & Sub Mini-Tape • Single</div>
-          <h3>Haze Tape (mini)</h3>
-          <p>Hypnotic, smoke-drenched low-end loops for late-night zoning.</p>
-          <div class="button-group">
-            <button class="btn-play" onclick="playDeck('Haze Tape (mini)', 'Mini-Tape Single', 'PASTE_ARCHIVE_MP3_URL')">▶ Stream Mini</button>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="meta">Broadcast Mini-Tape • Single</div>
-          <h3>NFL Tape</h3>
-          <p>Heavy brass, stadium-sized percussion, and aggressive anthem energy.</p>
-          <div class="button-group">
-            <button class="btn-play" onclick="playDeck('NFL Tape', 'Mini-Tape Single', 'PASTE_ARCHIVE_MP3_URL')">▶ Stream Mini</button>
-          </div>
-        </div>
-      </div>
-
-      <h3 style="color: var(--accent); margin-bottom: 12px; letter-spacing: 1px;">05 // STANDALONE CONCEPT & MOOD TAPES</h3>
-      <div class="grid">
-        <div class="card">
-          <div class="meta">Marathon Album • 24 Tracks</div>
-          <h3>New World Order Tape</h3>
-          <p>24-track dystopian soundscape of heavy drums and shifting synthetic textures.</p>
-          <div class="button-group">
-            <button class="btn-play" onclick="playDeck('New World Order Tape (24 Tracks)', 'Full Album', 'PASTE_ARCHIVE_MP3_URL')">▶ Load Tape</button>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="meta">Marathon Album • 23 Tracks</div>
-          <h3>Bright Side of the Moon</h3>
-          <p>23 tracks of cosmic synth work, deep space grooves, and panoramic panning.</p>
-          <div class="button-group">
-            <button class="btn-play" onclick="playDeck('Bright Side of the Moon (23 Tracks)', 'Full Album', 'PASTE_ARCHIVE_MP3_URL')">▶ Load Tape</button>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="meta">Concept Album • 16 Tracks</div>
-          <h3>Epic Tape</h3>
-          <p>16 cinematic instrumentals built on widescreen orchestration and booming low-end.</p>
-          <div class="button-group">
-            <button class="btn-play" onclick="playDeck('Epic Tape (16 Tracks)', 'Full Album', 'PASTE_ARCHIVE_MP3_URL')">▶ Load Tape</button>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="meta">Concept Album • 16 Tracks</div>
-          <h3>Island Tape</h3>
-          <p>16 tracks blending warm tropical percussion with subterranean sub-bass weight.</p>
-          <div class="button-group">
-            <button class="btn-play" onclick="playDeck('Island Tape (16 Tracks)', 'Full Album', 'PASTE_ARCHIVE_MP3_URL')">▶ Load Tape</button>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="meta">Concept Album • 15 Tracks</div>
-          <h3>Nex</h3>
-          <p>15 tracks of forward-leaning experimental electronic and dark trap mutations.</p>
-          <div class="button-group">
-            <button class="btn-play" onclick="playDeck('Nex (15 Tracks)', 'Full Album', 'PASTE_ARCHIVE_MP3_URL')">▶ Load Tape</button>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="meta">Night Cruise • 14 Tracks</div>
-          <h3>Just Drive</h3>
-          <p>14 hypnotic highway rollers engineered for late-night headphone or car tests.</p>
-          <div class="button-group">
-            <button class="btn-play" onclick="playDeck('Just Drive (14 Tracks)', 'Full Album', 'PASTE_ARCHIVE_MP3_URL')">▶ Load Tape</button>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="meta">Laid-Back Rotation • 10 Tracks</div>
-          <h3>Why Stress</h3>
-          <p>10 smooth, decompression instrumentals with warm chords and dusty swing.</p>
-          <div class="button-group">
-            <button class="btn-play" onclick="playDeck('Why Stress (10 Tracks)', 'Full Album', 'PASTE_ARCHIVE_MP3_URL')">▶ Load Tape</button>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="meta">Mood Tape • 10 Tracks</div>
-          <h3>Blush Tape</h3>
-          <p>10 tracks of warm, melodic textures balanced against crisp drum programming.</p>
-          <div class="button-group">
-            <button class="btn-play" onclick="playDeck('Blush Tape (10 Tracks)', 'Full Album', 'PASTE_ARCHIVE_MP3_URL')">▶ Load Tape</button>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="meta">Low-End Study • 9 Tracks</div>
-          <h3>Freq Tape</h3>
-          <p>9 tracks focused on sub-100Hz resonance, frequency isolation, and spatial knock.</p>
-          <div class="button-group">
-            <button class="btn-play" onclick="playDeck('Freq Tape (9 Tracks)', 'Full Album', 'PASTE_ARCHIVE_MP3_URL')">▶ Load Tape</button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- TAB 4: DISPENSARY / STORE (VOCAL-READY BEAT PACKS) -->
-    <section id="store" class="tab-pane">
-      <div class="grid">
-        <div class="card">
-          <div class="meta">Beat Pack • 11 Tracks</div>
-          <h3>Knockin'</h3>
-          <p>11 hard-hitting instrumentals with soft-clipped drums and open vocal pockets ready for leasing.</p>
-          <div class="button-group">
-            <button class="btn-play" onclick="playDeck('Knockin\' (11 Tracks)', 'Dispensary Preview', 'PASTE_ARCHIVE_MP3_URL')">▶ Preview Pack</button>
-            <a class="btn-buy" href="https://traktrain.com" target="_blank" rel="noopener">Lease on Traktrain</a>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="meta">Beat Pack • 14 Tracks</div>
-          <h3>Doggy Bag, Vol. 1</h3>
-          <p>14 ready-to-go beats packaged for recording artists, freestyles, and independent releases.</p>
-          <div class="button-group">
-            <button class="btn-play" onclick="playDeck('Doggy Bag, Vol. 1 (14 Tracks)', 'Dispensary Preview', 'PASTE_ARCHIVE_MP3_URL')">▶ Preview Pack</button>
-            <a class="btn-buy" href="https://traktrain.com" target="_blank" rel="noopener">Lease on Traktrain</a>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="meta">Beat Pack • 14 Tracks</div>
-          <h3>Fill</h3>
-          <p>14 essential cuts built to lock in the backbone of an EP, mixtape, or vocal project.</p>
-          <div class="button-group">
-            <button class="btn-play" onclick="playDeck('Fill (14 Tracks)', 'Dispensary Preview', 'PASTE_ARCHIVE_MP3_URL')">▶ Preview Pack</button>
-            <a class="btn-buy" href="https://traktrain.com" target="_blank" rel="noopener">Lease on Traktrain</a>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <!-- Sticky Bottom Audio Deck (Never reloads between tab clicks) -->
-  <div class="sticky-deck">
-    <div class="deck-info">
-      <span class="deck-track" id="deck-title">Lily's Pad (Continuous Mix)</span>
-      <span class="deck-sub" id="deck-subtitle">Mike Lion Beatz — 142 BPM</span>
+<main>
+  <!-- TAB 1: HOME -->
+  <section id="home" class="tab-content active">
+    <div class="card">
+      <h2>Latest Drop: Lily's Pad EP</h2>
+      <p>12-minute deep dub techno & illbient trip. Subterranean sub-bass pressure hidden under still surface water.</p>
+      <button class="btn-primary" onclick="loadPlayer('Lily\'s Pad (Continuous Mix)', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3')">
+        ▶ Load to Bottom Deck
+      </button>
     </div>
-    <audio id="player-instance" controls autoplay>
-      <source id="player-src" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-      Your browser does not support audio playback.
-    </audio>
+    <div class="card">
+      <h2>Twin Engines & Storefronts</h2>
+      <p>Stream individual raw beat singles on <strong>SoundCloud</strong> or secure your direct MP3/WAV leases straight through the <strong>Traktrain</strong> storefront.</p>
+      <a href="https://traktrain.com" target="_blank" class="btn-primary">Visit Traktrain Store</a>
+    </div>
+  </section>
+
+  <!-- TAB 2: VIDEOS -->
+  <section id="videos" class="tab-content">
+    <div class="card">
+      <h2>YouTube Visualizers & Live Broadcasts</h2>
+      <p>Watch public visualizer streams and live sessions. Longform 8-hour continuous sticky tapes broadcast here for growth and watch-hour optimization.</p>
+      <!-- Embed or link your YouTube feed here -->
+      <a href="https://youtube.com/@MikeLionbeatz" target="_blank" class="btn-primary">Open YouTube Channel</a>
+    </div>
+  </section>
+
+  <!-- TAB 3: RELEASES -->
+  <section id="releases" class="tab-content">
+    <div class="card">
+      <h2>Official EPs & Albums</h2>
+      <p>Curated project lineages and macroeconomic releases structured in clean sequence.</p>
+    </div>
+  </section>
+
+  <!-- TAB 4: RECURSION PROJECT (The Scapetape & Architecture) -->
+  <section id="recursion" class="tab-content">
+    <div class="card" style="border-color: var(--accent);">
+      <h2>👑 The Crown Jewel: Scape Tape (16-Year Behemoth)</h2>
+      <p>The final crowning master representing a full year of intensive recursive folding and 16 years of music evolution.</p>
+      <button class="btn-primary" onclick="loadPlayer('Scape Tape (Full Master)', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3')">
+        ▶ Stream Scape Tape Master
+      </button>
+    </div>
+
+    <h3 style="color: var(--text); margin: 20px 0 10px 0; font-size: 1.1rem;">Recursive Packaging Pipeline</h3>
+    <div class="grid-tiers">
+      <div class="card">
+        <h2>1. Singles & Singles (-16)</h2>
+        <p>The raw foundational building blocks and primary seed elements.</p>
+      </div>
+      <div class="card">
+        <h2>2. Mini Tapes</h2>
+        <p>Structured blocks packaging individual beats into coherent sessions.</p>
+      </div>
+      <div class="card">
+        <h2>3. ATOM 64</h2>
+        <p>High-tier fusions where mini tapes fold inward into dense multi-track cores.</p>
+      </div>
+      <div class="card">
+        <h2>4. Scapes (Atoms)</h2>
+        <p>Heavy, resolved soundscape tracks compressed from the atom architecture.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- Sticky Uninterrupted Player Bar -->
+<div class="persistent-player">
+  <div class="track-info">
+    <span class="track-title" id="now-title">Select a track to begin</span>
+    <span class="track-sub" id="now-sub">Lion's Den Media Deck</span>
   </div>
+  <audio id="audio-deck" controls style="filter: invert(85%) hue-rotate(180deg); outline: none; height: 40px;"></audio>
+</div>
 
-  <script>
-    // Tab Switching Logic without reloading pages
-    function showTab(tabId) {
-      document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
-      document.querySelectorAll('.tab-link').forEach(btn => btn.classList.remove('active'));
+<script>
+function switchTab(tabId) {
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+  
+  document.getElementById(tabId).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
 
-      document.getElementById(tabId).classList.add('active');
-      event.target.classList.add('active');
-    }
+function loadPlayer(title, audioSrc) {
+  const player = document.getElementById('audio-deck');
+  document.getElementById('now-title').innerText = title;
+  document.getElementById('now-sub').innerText = 'Now Playing • Lion\'s Den Vault';
+  player.src = audioSrc;
+  player.play();
+}
+</script>
 
-    // Audio Deck Trigger Logic
-    function playDeck(title, subtitle, streamUrl) {
-      const player = document.getElementById('player-instance');
-      const source = document.getElementById('player-src');
-      
-      document.getElementById('deck-title').innerText = title;
-      document.getElementById('deck-subtitle').innerText = subtitle;
-      
-      source.src = streamUrl;
-      player.load();
-      player.play();
-    }
-  </script>
 </body>
 </html>
