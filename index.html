@@ -28,27 +28,36 @@ header {
 header h1 { font-size: 1.6rem; letter-spacing: 2px; color: var(--accent); }
 header p { color: var(--muted); font-size: 0.85rem; margin-top: 4px; }
 
-/* Sticky Tab Navigation */
+/* Sticky Genre Tab Navigation */
 nav {
   display: flex;
-  justify-content: center;
-  gap: 10px;
-  padding: 14px 16px;
+  justify-content: flex-start;
+  gap: 8px;
+  padding: 12px 16px;
   background: #111419;
   position: sticky;
   top: 0;
   z-index: 20;
   border-bottom: 1px solid var(--border);
   overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent) #111419;
+}
+nav::-webkit-scrollbar {
+  height: 6px;
+}
+nav::-webkit-scrollbar-thumb {
+  background: var(--accent);
+  border-radius: 3px;
 }
 nav button {
   background: none;
   border: 1px solid #2a3242;
   color: var(--text);
-  padding: 8px 18px;
+  padding: 7px 14px;
   cursor: pointer;
   border-radius: 4px;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   font-weight: 500;
   white-space: nowrap;
   transition: all 0.2s ease;
@@ -89,7 +98,7 @@ main { max-width: 1100px; margin: 24px auto; padding: 0 16px; }
 }
 .btn-primary:hover { opacity: 0.9; }
 
-/* 2-Column Split: Left Stack (SoundCloud + YouTube) & Right Column (Traktrain) */
+/* 2-Column Split for Home */
 .hub-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -113,7 +122,7 @@ main { max-width: 1100px; margin: 24px auto; padding: 0 16px; }
 .video-responsive {
   position: relative;
   width: 100%;
-  padding-top: 56.25%; /* 16:9 Aspect Ratio */
+  padding-top: 56.25%;
 }
 .video-responsive iframe {
   position: absolute;
@@ -140,6 +149,35 @@ main { max-width: 1100px; margin: 24px auto; padding: 0 16px; }
   font-weight: 500;
 }
 .playlist-card-footer a:hover { text-decoration: underline; }
+
+/* Genre Collection Grid Layout */
+.genre-header {
+  margin-bottom: 20px;
+}
+.genre-catalog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+.genre-card {
+  background: #111419;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.genre-card h3 {
+  font-size: 1rem;
+  color: #fff;
+  margin-bottom: 6px;
+}
+.genre-card span {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
 
 /* Persistent Bottom Audio Player */
 .persistent-player {
@@ -169,22 +207,45 @@ main { max-width: 1100px; margin: 24px auto; padding: 0 16px; }
   <p>RECURSION HUB & AUDIO REPOSITORY</p>
 </header>
 
-<!-- Navigation Tabs -->
+<!-- Navigation Tabs (Home + 28 Genres) -->
 <nav>
   <button class="tab-btn active" onclick="switchTab('home', this)">Home</button>
-  <button class="tab-btn" onclick="switchTab('videos', this)">Videos</button>
-  <button class="tab-btn" onclick="switchTab('releases', this)">Releases</button>
-  <button class="tab-btn" onclick="switchTab('recursion', this)">Recursion Project</button>
+  <button class="tab-btn" onclick="switchTab('genre-hip-hop', this)">Hip Hop</button>
+  <button class="tab-btn" onclick="switchTab('genre-jazz', this)">Jazz</button>
+  <button class="tab-btn" onclick="switchTab('genre-pop', this)">Pop</button>
+  <button class="tab-btn" onclick="switchTab('genre-dancehall', this)">Dancehall</button>
+  <button class="tab-btn" onclick="switchTab('genre-house', this)">House</button>
+  <button class="tab-btn" onclick="switchTab('genre-reggae', this)">Reggae</button>
+  <button class="tab-btn" onclick="switchTab('genre-k-pop', this)">K-Pop</button>
+  <button class="tab-btn" onclick="switchTab('genre-blues', this)">Blues</button>
+  <button class="tab-btn" onclick="switchTab('genre-rock', this)">Rock</button>
+  <button class="tab-btn" onclick="switchTab('genre-country', this)">Country</button>
+  <button class="tab-btn" onclick="switchTab('genre-r-b', this)">R&amp;B</button>
+  <button class="tab-btn" onclick="switchTab('genre-latin', this)">Latin</button>
+  <button class="tab-btn" onclick="switchTab('genre-afrobeats', this)">Afrobeats</button>
+  <button class="tab-btn" onclick="switchTab('genre-shoegaze', this)">Shoegaze</button>
+  <button class="tab-btn" onclick="switchTab('genre-experimental', this)">Experimental</button>
+  <button class="tab-btn" onclick="switchTab('genre-alternative', this)">Alternative</button>
+  <button class="tab-btn" onclick="switchTab('genre-folk', this)">Folk</button>
+  <button class="tab-btn" onclick="switchTab('genre-electronic', this)">Electronic</button>
+  <button class="tab-btn" onclick="switchTab('genre-gospel', this)">Gospel</button>
+  <button class="tab-btn" onclick="switchTab('genre-punk', this)">Punk</button>
+  <button class="tab-btn" onclick="switchTab('genre-dance', this)">Dance</button>
+  <button class="tab-btn" onclick="switchTab('genre-indie-rock', this)">Indie Rock</button>
+  <button class="tab-btn" onclick="switchTab('genre-hyperpop', this)">Hyperpop</button>
+  <button class="tab-btn" onclick="switchTab('genre-metal', this)">Metal</button>
+  <button class="tab-btn" onclick="switchTab('genre-funk-soul', this)">Funk Soul</button>
+  <button class="tab-btn" onclick="switchTab('genre-soundtrack', this)">Soundtrack</button>
+  <button class="tab-btn" onclick="switchTab('genre-classical', this)">Classical</button>
+  <button class="tab-btn" onclick="switchTab('genre-ambient', this)">Ambient</button>
 </nav>
 
 <main>
-  <!-- TAB 1: HOME -->
+  <!-- TAB 1: HOME (Exact preserved layout) -->
   <section id="home" class="tab-content active">
-    <!-- Top Hub: Left Stack (SoundCloud + YouTube) & Right Column (Traktrain) -->
     <div class="hub-grid">
-      <!-- Left Column: SoundCloud (Top) + YouTube Featured Playlist (Bottom) -->
+      <!-- Left Stack: SoundCloud + YouTube -->
       <div class="left-stack">
-        <!-- 1. SoundCloud Stream Card -->
         <div class="card" style="margin-bottom: 0;">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 6px;">
             <h2>SoundCloud: Groovy Tape</h2>
@@ -199,7 +260,6 @@ main { max-width: 1100px; margin: 24px auto; padding: 0 16px; }
           </div>
         </div>
 
-        <!-- 2. Single YouTube Featured Playlist (Fits cleanly under SoundCloud) -->
         <div class="card" style="margin-bottom: 0;">
           <h2>Featured Rotation</h2>
           <p>Official music stream & video playlist.</p>
@@ -219,7 +279,7 @@ main { max-width: 1100px; margin: 24px auto; padding: 0 16px; }
         </div>
       </div>
 
-      <!-- Right Column: Traktrain Beat Shop (Taller 790px Frame) -->
+      <!-- Right Column: Traktrain Beat Shop -->
       <div class="card" style="margin-bottom: 0; display: flex; flex-direction: column;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 6px;">
           <h2>Traktrain Beat Shop</h2>
@@ -239,7 +299,7 @@ main { max-width: 1100px; margin: 24px auto; padding: 0 16px; }
       </div>
     </div>
 
-    <!-- Bottom Row: Spotify Widget (Full Width) -->
+    <!-- Bottom Row: Spotify -->
     <div class="card">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 6px;">
         <h2>Official Spotify Playlist</h2>
@@ -250,14 +310,202 @@ main { max-width: 1100px; margin: 24px auto; padding: 0 16px; }
     </div>
   </section>
 
-  <!-- TAB 2: VIDEOS (Blank Placeholder) -->
-  <section id="videos" class="tab-content"></section>
+  <!-- 28 GENRE TABS -->
+  <section id="genre-hip-hop" class="tab-content">
+    <div class="card">
+      <h2>Best of Hip Hop</h2>
+      <p>Curated boom bap, dark trap, raw lyrical cuts, and rhythm architectures.</p>
+    </div>
+  </section>
 
-  <!-- TAB 3: RELEASES (Blank Placeholder) -->
-  <section id="releases" class="tab-content"></section>
+  <section id="genre-jazz" class="tab-content">
+    <div class="card">
+      <h2>Best of Jazz</h2>
+      <p>Modal progressions, horn textures, smooth bass runs, and late-night lounge recordings.</p>
+    </div>
+  </section>
 
-  <!-- TAB 4: RECURSION PROJECT (Blank Placeholder) -->
-  <section id="recursion" class="tab-content"></section>
+  <section id="genre-pop" class="tab-content">
+    <div class="card">
+      <h2>Best of Pop</h2>
+      <p>Vocal-driven hooks, dynamic melodic bridges, and polished radio arrangements.</p>
+    </div>
+  </section>
+
+  <section id="genre-dancehall" class="tab-content">
+    <div class="card">
+      <h2>Best of Dancehall</h2>
+      <p>Island bounce riddims, syncopated off-beat snares, and high-energy sound system cuts.</p>
+    </div>
+  </section>
+
+  <section id="genre-house" class="tab-content">
+    <div class="card">
+      <h2>Best of House</h2>
+      <p>Four-on-the-floor kick pressure, deep filtered chords, and warehouse club grooves.</p>
+    </div>
+  </section>
+
+  <section id="genre-reggae" class="tab-content">
+    <div class="card">
+      <h2>Best of Reggae</h2>
+      <p>Roots skank, dub delay drops, low-slung basslines, and conscious melodies.</p>
+    </div>
+  </section>
+
+  <section id="genre-k-pop" class="tab-content">
+    <div class="card">
+      <h2>Best of K-Pop</h2>
+      <p>Maximalist synth arrangements, genre-bending switch-ups, and infectious vocal harmonies.</p>
+    </div>
+  </section>
+
+  <section id="genre-blues" class="tab-content">
+    <div class="card">
+      <h2>Best of Blues</h2>
+      <p>Twelve-bar progressions, overdriven pentatonic riffs, and raw emotional delivery.</p>
+    </div>
+  </section>
+
+  <section id="genre-rock" class="tab-content">
+    <div class="card">
+      <h2>Best of Rock</h2>
+      <p>Heavy rhythm sections, aggressive guitar distortion, and driving drum power.</p>
+    </div>
+  </section>
+
+  <section id="genre-country" class="tab-content">
+    <div class="card">
+      <h2>Best of Country</h2>
+      <p>Acoustic storytelling, slide guitars, steady country shuffles, and rustic harmonics.</p>
+    </div>
+  </section>
+
+  <section id="genre-r-b" class="tab-content">
+    <div class="card">
+      <h2>Best of R&amp;B</h2>
+      <p>Warm Rhodes keys, silky vocal cadence, low-end 808 glide, and nocturnal melodies.</p>
+    </div>
+  </section>
+
+  <section id="genre-latin" class="tab-content">
+    <div class="card">
+      <h2>Best of Latin</h2>
+      <p>Latin percussion grooves, brass flares, syncopated montuno riffs, and rhythmic drive.</p>
+    </div>
+  </section>
+
+  <section id="genre-afrobeats" class="tab-content">
+    <div class="card">
+      <h2>Best of Afrobeats</h2>
+      <p>Poly-rhythmic percussive patterns, west-coast guitar leads, and buoyant bass pockets.</p>
+    </div>
+  </section>
+
+  <section id="genre-shoegaze" class="tab-content">
+    <div class="card">
+      <h2>Best of Shoegaze</h2>
+      <p>Reverb walls, swirling modulation, buried vocal textures, and guitar drone washes.</p>
+    </div>
+  </section>
+
+  <section id="genre-experimental" class="tab-content">
+    <div class="card">
+      <h2>Best of Experimental</h2>
+      <p>Abstract recursion, microtonal shifts, glitch synthesis, and boundary-pushing audio shapes.</p>
+    </div>
+  </section>
+
+  <section id="genre-alternative" class="tab-content">
+    <div class="card">
+      <h2>Best of Alternative</h2>
+      <p>Left-field song structures, non-conformist rhythm pairs, and indie underground tones.</p>
+    </div>
+  </section>
+
+  <section id="genre-folk" class="tab-content">
+    <div class="card">
+      <h2>Best of Folk</h2>
+      <p>Fingerpicked acoustic strings, intimate room air, and timeless unplugged traditions.</p>
+    </div>
+  </section>
+
+  <section id="genre-electronic" class="tab-content">
+    <div class="card">
+      <h2>Best of Electronic</h2>
+      <p>Modular synthesis, analog arp sequences, sub-heavy frequencies, and digital processing.</p>
+    </div>
+  </section>
+
+  <section id="genre-gospel" class="tab-content">
+    <div class="card">
+      <h2>Best of Gospel</h2>
+      <p>Choir arrangements, soul-affirming Hammond organs, and dynamic devotional peaks.</p>
+    </div>
+  </section>
+
+  <section id="genre-punk" class="tab-content">
+    <div class="card">
+      <h2>Best of Punk</h2>
+      <p>Raw power chords, rapid-fire downpicking, ferocious drums, and unapologetic attitude.</p>
+    </div>
+  </section>
+
+  <section id="genre-dance" class="tab-content">
+    <div class="card">
+      <h2>Best of Dance</h2>
+      <p>Peak-time risers, energetic side-chained leads, and festival anthem drops.</p>
+    </div>
+  </section>
+
+  <section id="genre-indie-rock" class="tab-content">
+    <div class="card">
+      <h2>Best of Indie Rock</h2>
+      <p>Jangle guitars, lo-fi basement warmth, punchy drum kits, and garage hooks.</p>
+    </div>
+  </section>
+
+  <section id="genre-hyperpop" class="tab-content">
+    <div class="card">
+      <h2>Best of Hyperpop</h2>
+      <p>Distorted bitcrushed leads, pitch-shifted vocals, frenetic tempo shifts, and bubblegum chaos.</p>
+    </div>
+  </section>
+
+  <section id="genre-metal" class="tab-content">
+    <div class="card">
+      <h2>Best of Metal</h2>
+      <p>Downtuned chugs, double-kick blast beats, crushing dissonance, and technical precision.</p>
+    </div>
+  </section>
+
+  <section id="genre-funk-soul" class="tab-content">
+    <div class="card">
+      <h2>Best of Funk Soul</h2>
+      <p>Slap bass, tight rhythm guitar chops, vintage horn stabs, and soulful pocket grooves.</p>
+    </div>
+  </section>
+
+  <section id="genre-soundtrack" class="tab-content">
+    <div class="card">
+      <h2>Best of Soundtrack</h2>
+      <p>Cinematic tension cues, orchestral swells, sci-fi scoring, and epic narrative soundscapes.</p>
+    </div>
+  </section>
+
+  <section id="genre-classical" class="tab-content">
+    <div class="card">
+      <h2>Best of Classical</h2>
+      <p>String quartets, grand piano sonatas, dramatic counterpoint, and concert arrangements.</p>
+    </div>
+  </section>
+
+  <section id="genre-ambient" class="tab-content">
+    <div class="card">
+      <h2>Best of Ambient</h2>
+      <p>Subterranean drones, slow-evolving textures, field recordings, and infinite resonance.</p>
+    </div>
+  </section>
 </main>
 
 <!-- Persistent Bottom Deck Audio Player -->
