@@ -135,6 +135,14 @@ main { max-width: 1100px; margin: 24px auto; padding: 0 16px; }
 }
 .playlist-card-footer a:hover { text-decoration: underline; }
 
+/* 2-Column Audio Streamers Grid (Spotify & SoundCloud) */
+.streamers-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
 /* Persistent Bottom Audio Player */
 .persistent-player {
   position: fixed;
@@ -245,32 +253,34 @@ main { max-width: 1100px; margin: 24px auto; padding: 0 16px; }
       </div>
     </div>
 
-    <!-- Section 1 Under Playlists: Latest Drop (Lily's Pad EP) -->
-    <div class="card">
-      <h2>Latest Drop: Lily's Pad EP</h2>
-      <p style="font-size: 1rem; color: #fff; margin-bottom: 6px;"><strong>Inaugural 5-Track Release</strong></p>
-      <p>12-minute deep dub techno & illbient trip. Subterranean sub-bass pressure hidden under still surface water.</p>
-      <p style="font-size: 0.85rem; color: var(--muted); line-height: 1.6;">
-        • Track 01: Water Surface (Intro)<br>
-        • Track 02: Subterranean Pressure<br>
-        • Track 03: Algae & Echoes<br>
-        • Track 04: The Deep Dive<br>
-        • Track 05: Vapor & Mist (Outro)
-      </p>
-      <div style="margin-top: 14px;">
-        <button class="btn-primary" onclick="loadPlayer('Lily\'s Pad (Continuous Mix)', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3')">
-          ▶ Load Mix to Bottom Deck
-        </button>
+    <!-- Row 2: Streamers & Embeds (Spotify & SoundCloud) -->
+    <div class="streamers-grid">
+      <!-- Spotify Card -->
+      <div class="card" style="margin-bottom: 0;">
+        <h2>Official Spotify Playlist</h2>
+        <p>Direct playlist stream and album catalog on Spotify.</p>
+        <iframe data-testid="embed-iframe" style="border-radius:12px; margin-top: 10px;" src="https://open.spotify.com/embed/playlist/5cMBjxNRS44OwA3R2DxoDM?utm_source=generator&si=847dda9760e74d0d" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+      </div>
+
+      <!-- SoundCloud Card -->
+      <div class="card" style="margin-bottom: 0;">
+        <h2>SoundCloud Stream: Groovy Tape</h2>
+        <p>Continuous instrumentals and underground tape rotations.</p>
+        <div style="margin-top: 10px;">
+          <iframe width="100%" height="300" scrolling="no" frameborder="no" allow="autoplay; encrypted-media" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/soundcloud%253Aplaylists%253A1854995703&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
+          <div style="font-size: 10px; color: #cccccc; line-break: anywhere; word-break: normal; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-family: Interstate, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Garuda, Verdana, Tahoma, sans-serif; font-weight: 100; margin-top: 6px;">
+            <a href="https://soundcloud.com/mike-dizzle-beatz" title="Mike Lion Beatz" target="_blank" style="color: #cccccc; text-decoration: none;">Mike Lion Beatz</a> · <a href="https://soundcloud.com/mike-dizzle-beatz/sets/jamz" title="Groovy Tape" target="_blank" style="color: #cccccc; text-decoration: none;">Groovy Tape</a>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- Section 2 Under Playlists: Twin Engines & Storefronts -->
+    <!-- Row 3: Storefronts -->
     <div class="card">
-      <h2>Twin Engines & Storefronts</h2>
-      <p>Stream individual raw beat singles on <strong>SoundCloud</strong> or secure direct MP3/WAV leases straight through the <strong>Traktrain</strong> storefront.</p>
-      <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px;">
+      <h2>Traktrain Beat Store</h2>
+      <p>Secure MP3, WAV, and trackout stem licenses directly from the official beat catalog.</p>
+      <div style="margin-top: 10px;">
         <a href="https://traktrain.com" target="_blank" class="btn-primary">Visit Traktrain Store ↗</a>
-        <a href="https://soundcloud.com" target="_blank" class="btn-primary" style="background: transparent; color: var(--accent); border: 1px solid var(--accent);">Visit SoundCloud Stream ↗</a>
       </div>
     </div>
   </section>
