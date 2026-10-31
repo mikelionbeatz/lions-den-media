@@ -176,9 +176,33 @@ main { max-width: 1100px; margin: 24px auto; padding: 0 16px; }
   <button class="tab-btn" onclick="switchTab('recursion', this)">Recursion Project</button>
 </nav>
 
-<main>
-  <!-- TAB 1: HOME -->
+<!-- TAB 1: HOME -->
   <section id="home" class="tab-content active">
+    <!-- Featured Playlist Card & Player -->
+    <div class="card">
+      <h2>Featured Stream: Official Rotation</h2>
+      <p>Listen directly through the player below or open the full playlist across streaming platforms.</p>
+      
+      <div class="video-responsive" style="margin: 14px 0; border-radius: 4px; overflow: hidden;">
+        <iframe 
+          src="https://www.youtube.com/embed/videoseries?list=PLDzWsTUmWT_E" 
+          loading="lazy" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+          allowfullscreen>
+        </iframe>
+      </div>
+
+      <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px;">
+        <a href="https://music.youtube.com/playlist?list=PLDzWsTUmWT_E" target="_blank" class="btn-primary">
+          Open in YouTube Music ↗
+        </a>
+        <a href="https://www.youtube.com/playlist?list=PLDzWsTUmWT_E" target="_blank" class="btn-primary" style="background: transparent; color: var(--accent); border: 1px solid var(--accent);">
+          Open on YouTube ↗
+        </a>
+      </div>
+    </div>
+
+    <!-- Latest Project Drop -->
     <div class="card">
       <h2>Latest Drop: Lily's Pad EP</h2>
       <p>12-minute deep dub techno & illbient trip. Subterranean sub-bass pressure hidden under still surface water.</p>
@@ -187,6 +211,7 @@ main { max-width: 1100px; margin: 24px auto; padding: 0 16px; }
       </button>
     </div>
 
+    <!-- Storefronts & Mirrors -->
     <div class="card">
       <h2>Twin Engines & Storefronts</h2>
       <p>Stream individual raw beat singles on <strong>SoundCloud</strong> or secure direct MP3/WAV leases straight through the <strong>Traktrain</strong> storefront.</p>
